@@ -4,7 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.v4.app.NotificationManagerCompat;
+// import android.support.v4.app.NotificationManagerCompat;
 import android.util.Base64;
 import android.util.Log;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -13,7 +13,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.iid.FirebaseInstanceId;
-import com.google.firebase.messaging.FirebaseMessaging;
+// import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig;
 import com.google.firebase.remoteconfig.FirebaseRemoteConfigInfo;
 import com.google.firebase.remoteconfig.FirebaseRemoteConfigSettings;
@@ -53,8 +53,8 @@ public class FirebasePlugin extends CordovaPlugin {
     protected static final String KEY = "badge";
 
     private static boolean inBackground = true;
-    private static ArrayList<Bundle> notificationStack = null;
-    private static CallbackContext notificationCallbackContext;
+    // private static ArrayList<Bundle> notificationStack = null;
+    // private static CallbackContext notificationCallbackContext;
     private static CallbackContext tokenRefreshCallbackContext;
 
     @Override
@@ -67,15 +67,15 @@ public class FirebasePlugin extends CordovaPlugin {
                 FirebaseApp.initializeApp(context);
                 mFirebaseAnalytics = FirebaseAnalytics.getInstance(context);
                 mFirebaseAnalytics.setAnalyticsCollectionEnabled(true);
-                if (extras != null && extras.size() > 1) {
-                    if (FirebasePlugin.notificationStack == null) {
-                        FirebasePlugin.notificationStack = new ArrayList<Bundle>();
-                    }
-                    if (extras.containsKey("google.message_id")) {
-                        extras.putBoolean("tap", true);
-                        notificationStack.add(extras);
-                    }
-                }
+                // if (extras != null && extras.size() > 1) {
+                //     if (FirebasePlugin.notificationStack == null) {
+                //         FirebasePlugin.notificationStack = new ArrayList<Bundle>();
+                //     }
+                //     if (extras.containsKey("google.message_id")) {
+                //         extras.putBoolean("tap", true);
+                //         notificationStack.add(extras);
+                //     }
+                // }
             }
         });
     }
@@ -91,27 +91,27 @@ public class FirebasePlugin extends CordovaPlugin {
         } else if (action.equals("getToken")) {
             this.getToken(callbackContext);
             return true;
-        } else if (action.equals("hasPermission")) {
-            this.hasPermission(callbackContext);
-            return true;
+        // } else if (action.equals("hasPermission")) {
+        //     this.hasPermission(callbackContext);
+        //     return true;
         } else if (action.equals("setBadgeNumber")) {
             this.setBadgeNumber(callbackContext, args.getInt(0));
             return true;
         } else if (action.equals("getBadgeNumber")) {
             this.getBadgeNumber(callbackContext);
             return true;
-        } else if (action.equals("subscribe")) {
-            this.subscribe(callbackContext, args.getString(0));
-            return true;
-        } else if (action.equals("unsubscribe")) {
-            this.unsubscribe(callbackContext, args.getString(0));
-            return true;
+        // } else if (action.equals("subscribe")) {
+        //     this.subscribe(callbackContext, args.getString(0));
+        //     return true;
+        // } else if (action.equals("unsubscribe")) {
+        //     this.unsubscribe(callbackContext, args.getString(0));
+        //     return true;
         } else if (action.equals("unregister")) {
             this.unregister(callbackContext);
             return true;
-        } else if (action.equals("onNotificationOpen")) {
-            this.onNotificationOpen(callbackContext);
-            return true;
+        // } else if (action.equals("onNotificationOpen")) {
+        //     this.onNotificationOpen(callbackContext);
+        //     return true;
         } else if (action.equals("onTokenRefresh")) {
             this.onTokenRefresh(callbackContext);
             return true;
@@ -194,19 +194,19 @@ public class FirebasePlugin extends CordovaPlugin {
 
     @Override
     public void onReset() {
-        FirebasePlugin.notificationCallbackContext = null;
+        // FirebasePlugin.notificationCallbackContext = null;
         FirebasePlugin.tokenRefreshCallbackContext = null;
     }
 
-    private void onNotificationOpen(final CallbackContext callbackContext) {
-        FirebasePlugin.notificationCallbackContext = callbackContext;
-        if (FirebasePlugin.notificationStack != null) {
-            for (Bundle bundle : FirebasePlugin.notificationStack) {
-                FirebasePlugin.sendNotification(bundle);
-            }
-            FirebasePlugin.notificationStack.clear();
-        }
-    }
+    // private void onNotificationOpen(final CallbackContext callbackContext) {
+    //     FirebasePlugin.notificationCallbackContext = callbackContext;
+    //     if (FirebasePlugin.notificationStack != null) {
+    //         for (Bundle bundle : FirebasePlugin.notificationStack) {
+    //             FirebasePlugin.sendNotification(bundle);
+    //         }
+    //         FirebasePlugin.notificationStack.clear();
+    //     }
+    // }
 
     private void onTokenRefresh(final CallbackContext callbackContext) {
         FirebasePlugin.tokenRefreshCallbackContext = callbackContext;
@@ -226,32 +226,32 @@ public class FirebasePlugin extends CordovaPlugin {
         });
     }
 
-    public static void sendNotification(Bundle bundle) {
-        if (!FirebasePlugin.hasNotificationsCallback()) {
-            if (FirebasePlugin.notificationStack == null) {
-                FirebasePlugin.notificationStack = new ArrayList<Bundle>();
-            }
-            notificationStack.add(bundle);
-            return;
-        }
-        final CallbackContext callbackContext = FirebasePlugin.notificationCallbackContext;
-        if (callbackContext != null && bundle != null) {
-            JSONObject json = new JSONObject();
-            Set<String> keys = bundle.keySet();
-            for (String key : keys) {
-                try {
-                    json.put(key, bundle.get(key));
-                } catch (JSONException e) {
-                    callbackContext.error(e.getMessage());
-                    return;
-                }
-            }
+    // public static void sendNotification(Bundle bundle) {
+    //     if (!FirebasePlugin.hasNotificationsCallback()) {
+    //         if (FirebasePlugin.notificationStack == null) {
+    //             FirebasePlugin.notificationStack = new ArrayList<Bundle>();
+    //         }
+    //         notificationStack.add(bundle);
+    //         return;
+    //     }
+    //     final CallbackContext callbackContext = FirebasePlugin.notificationCallbackContext;
+    //     if (callbackContext != null && bundle != null) {
+    //         JSONObject json = new JSONObject();
+    //         Set<String> keys = bundle.keySet();
+    //         for (String key : keys) {
+    //             try {
+    //                 json.put(key, bundle.get(key));
+    //             } catch (JSONException e) {
+    //                 callbackContext.error(e.getMessage());
+    //                 return;
+    //             }
+    //         }
 
-            PluginResult pluginresult = new PluginResult(PluginResult.Status.OK, json);
-            pluginresult.setKeepCallback(true);
-            callbackContext.sendPluginResult(pluginresult);
-        }
-    }
+    //         PluginResult pluginresult = new PluginResult(PluginResult.Status.OK, json);
+    //         pluginresult.setKeepCallback(true);
+    //         callbackContext.sendPluginResult(pluginresult);
+    //     }
+    // }
 
     public static void sendToken(String token) {
         if (FirebasePlugin.tokenRefreshCallbackContext == null) {
@@ -269,19 +269,19 @@ public class FirebasePlugin extends CordovaPlugin {
         return FirebasePlugin.inBackground;
     }
 
-    public static boolean hasNotificationsCallback() {
-        return FirebasePlugin.notificationCallbackContext != null;
-    }
+    // public static boolean hasNotificationsCallback() {
+    //     return FirebasePlugin.notificationCallbackContext != null;
+    // }
 
-    @Override
-    public void onNewIntent(Intent intent) {
-        super.onNewIntent(intent);
-        final Bundle data = intent.getExtras();
-        if (data != null && data.containsKey("google.message_id")) {
-            data.putBoolean("tap", true);
-            FirebasePlugin.sendNotification(data);
-        }
-    }
+    // @Override
+    // public void onNewIntent(Intent intent) {
+    //     super.onNewIntent(intent);
+    //     final Bundle data = intent.getExtras();
+    //     if (data != null && data.containsKey("google.message_id")) {
+    //         data.putBoolean("tap", true);
+    //         FirebasePlugin.sendNotification(data);
+    //     }
+    // }
 
     // DEPRECTED - alias of getToken
     private void getInstanceId(final CallbackContext callbackContext) {
@@ -323,22 +323,22 @@ public class FirebasePlugin extends CordovaPlugin {
         });
     }
 
-    private void hasPermission(final CallbackContext callbackContext) {
-        cordova.getThreadPool().execute(new Runnable() {
-            public void run() {
-                try {
-                    Context context = cordova.getActivity();
-                    NotificationManagerCompat notificationManagerCompat = NotificationManagerCompat.from(context);
-                    boolean areNotificationsEnabled = notificationManagerCompat.areNotificationsEnabled();
-                    JSONObject object = new JSONObject();
-                    object.put("isEnabled", areNotificationsEnabled);
-                    callbackContext.success(object);
-                } catch (Exception e) {
-                    callbackContext.error(e.getMessage());
-                }
-            }
-        });
-    }
+    // private void hasPermission(final CallbackContext callbackContext) {
+    //     cordova.getThreadPool().execute(new Runnable() {
+    //         public void run() {
+    //             try {
+    //                 Context context = cordova.getActivity();
+    //                 NotificationManagerCompat notificationManagerCompat = NotificationManagerCompat.from(context);
+    //                 boolean areNotificationsEnabled = notificationManagerCompat.areNotificationsEnabled();
+    //                 JSONObject object = new JSONObject();
+    //                 object.put("isEnabled", areNotificationsEnabled);
+    //                 callbackContext.success(object);
+    //             } catch (Exception e) {
+    //                 callbackContext.error(e.getMessage());
+    //             }
+    //         }
+    //     });
+    // }
 
     private void setBadgeNumber(final CallbackContext callbackContext, final int number) {
         cordova.getThreadPool().execute(new Runnable() {
@@ -372,31 +372,31 @@ public class FirebasePlugin extends CordovaPlugin {
         });
     }
 
-    private void subscribe(final CallbackContext callbackContext, final String topic) {
-        cordova.getThreadPool().execute(new Runnable() {
-            public void run() {
-                try {
-                    FirebaseMessaging.getInstance().subscribeToTopic(topic);
-                    callbackContext.success();
-                } catch (Exception e) {
-                    callbackContext.error(e.getMessage());
-                }
-            }
-        });
-    }
+    // private void subscribe(final CallbackContext callbackContext, final String topic) {
+    //     cordova.getThreadPool().execute(new Runnable() {
+    //         public void run() {
+    //             try {
+    //                 FirebaseMessaging.getInstance().subscribeToTopic(topic);
+    //                 callbackContext.success();
+    //             } catch (Exception e) {
+    //                 callbackContext.error(e.getMessage());
+    //             }
+    //         }
+    //     });
+    // }
 
-    private void unsubscribe(final CallbackContext callbackContext, final String topic) {
-        cordova.getThreadPool().execute(new Runnable() {
-            public void run() {
-                try {
-                    FirebaseMessaging.getInstance().unsubscribeFromTopic(topic);
-                    callbackContext.success();
-                } catch (Exception e) {
-                    callbackContext.error(e.getMessage());
-                }
-            }
-        });
-    }
+    // private void unsubscribe(final CallbackContext callbackContext, final String topic) {
+    //     cordova.getThreadPool().execute(new Runnable() {
+    //         public void run() {
+    //             try {
+    //                 // FirebaseMessaging.getInstance().unsubscribeFromTopic(topic);
+    //                 callbackContext.success();
+    //             } catch (Exception e) {
+    //                 callbackContext.error(e.getMessage());
+    //             }
+    //         }
+    //     });
+    // }
 
     private void unregister(final CallbackContext callbackContext) {
         cordova.getThreadPool().execute(new Runnable() {
