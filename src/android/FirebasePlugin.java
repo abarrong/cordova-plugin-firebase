@@ -1,8 +1,8 @@
 package org.apache.cordova.firebase;
 
 import android.app.Activity;
-import android.app.NotificationManager;
-import android.app.NotificationChannel;
+// import android.app.NotificationManager;
+// import android.app.NotificationChannel;
 import android.content.ContentResolver;
 import android.media.RingtoneManager;
 import android.net.Uri;
@@ -12,8 +12,8 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
-import androidx.core.app.NotificationCompat;
-import androidx.core.app.NotificationManagerCompat;
+// import androidx.core.app.NotificationCompat;
+// import androidx.core.app.NotificationManagerCompat;
 import android.util.Base64;
 import android.util.Log;
 
@@ -25,7 +25,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.iid.FirebaseInstanceId;
-import com.google.firebase.messaging.FirebaseMessaging;
+// import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig;
 import com.google.firebase.remoteconfig.FirebaseRemoteConfigInfo;
 import com.google.firebase.remoteconfig.FirebaseRemoteConfigSettings;
@@ -74,9 +74,9 @@ public class FirebasePlugin extends CordovaPlugin {
     private static CallbackContext notificationCallbackContext;
     private static CallbackContext tokenRefreshCallbackContext;
 
-    private static NotificationChannel defaultNotificationChannel = null;
-    public static String defaultChannelId = null;
-    public static String defaultChannelName = null;
+    // private static NotificationChannel defaultNotificationChannel = null;
+    // public static String defaultChannelId = null;
+    // public static String defaultChannelName = null;
 
     @Override
     protected void pluginInitialize() {
@@ -91,20 +91,20 @@ public class FirebasePlugin extends CordovaPlugin {
                     Log.d(TAG, "Starting Firebase plugin");
                     FirebaseApp.initializeApp(applicationContext);
                     mFirebaseAnalytics = FirebaseAnalytics.getInstance(applicationContext);
-                    if (extras != null && extras.size() > 1) {
-                        if (FirebasePlugin.notificationStack == null) {
-                            FirebasePlugin.notificationStack = new ArrayList<Bundle>();
-                        }
-                        if (extras.containsKey("google.message_id")) {
-                            extras.putString("messageType", "notification");
-                            extras.putString("tap", "background");
-                            notificationStack.add(extras);
-                            Log.d(TAG, "Notification message found on init: " + extras.toString());
-                        }
-                    }
-                    defaultChannelId = getStringResource("default_notification_channel_id");
-                    defaultChannelName = getStringResource("default_notification_channel_name");
-                    createDefaultChannel();
+                    // if (extras != null && extras.size() > 1) {
+                    //     if (FirebasePlugin.notificationStack == null) {
+                    //         FirebasePlugin.notificationStack = new ArrayList<Bundle>();
+                    //     }
+                    //     if (extras.containsKey("google.message_id")) {
+                    //         extras.putString("messageType", "notification");
+                    //         extras.putString("tap", "background");
+                    //         notificationStack.add(extras);
+                    //         Log.d(TAG, "Notification message found on init: " + extras.toString());
+                    //     }
+                    // }
+                    // defaultChannelId = getStringResource("default_notification_channel_id");
+                    // defaultChannelName = getStringResource("default_notification_channel_name");
+                    // createDefaultChannel();
                 }catch (Exception e){
                     handleExceptionWithoutContext(e);
                 }
@@ -121,24 +121,24 @@ public class FirebasePlugin extends CordovaPlugin {
             } else if (action.equals("getToken")) {
                 this.getToken(callbackContext);
                 return true;
-            } else if (action.equals("hasPermission")) {
-                this.hasPermission(callbackContext);
-                return true;
-            }else if (action.equals("subscribe")) {
-                this.subscribe(callbackContext, args.getString(0));
-                return true;
-            } else if (action.equals("unsubscribe")) {
-                this.unsubscribe(callbackContext, args.getString(0));
-                return true;
-            } else if (action.equals("unregister")) {
-                this.unregister(callbackContext);
-                return true;
-            } else if (action.equals("onMessageReceived")) {
-                this.onMessageReceived(callbackContext);
-                return true;
-            } else if (action.equals("onTokenRefresh")) {
-                this.onTokenRefresh(callbackContext);
-                return true;
+            // } else if (action.equals("hasPermission")) {
+            //     this.hasPermission(callbackContext);
+            //     return true;
+            // }else if (action.equals("subscribe")) {
+            //     this.subscribe(callbackContext, args.getString(0));
+            //     return true;
+            // } else if (action.equals("unsubscribe")) {
+            //     this.unsubscribe(callbackContext, args.getString(0));
+            //     return true;
+            // } else if (action.equals("unregister")) {
+            //     this.unregister(callbackContext);
+            //     return true;
+            // } else if (action.equals("onMessageReceived")) {
+            //     this.onMessageReceived(callbackContext);
+            //     return true;
+            // } else if (action.equals("onTokenRefresh")) {
+            //     this.onTokenRefresh(callbackContext);
+            //     return true;
             } else if (action.equals("logEvent")) {
                 this.logEvent(callbackContext, args.getString(0), args.getJSONObject(1));
                 return true;
@@ -203,27 +203,27 @@ public class FirebasePlugin extends CordovaPlugin {
             } else if (action.equals("setCrashlyticsCollectionEnabled")) {
                 this.setCrashlyticsCollectionEnabled(callbackContext);
                 return true;
-            } else if (action.equals("clearAllNotifications")) {
-                this.clearAllNotifications(callbackContext);
-                return true;
+            // } else if (action.equals("clearAllNotifications")) {
+            //     this.clearAllNotifications(callbackContext);
+            //     return true;
             } else if (action.equals("logMessage")) {
                 logMessage(args, callbackContext);
                 return true;
             } else if (action.equals("sendCrash")) {
                 sendCrash(args, callbackContext);
                 return true;
-            } else if (action.equals("createChannel")) {
-                this.createChannel(callbackContext, args.getJSONObject(0));
-                return true;
-            } else if (action.equals("deleteChannel")) {
-                this.deleteChannel(callbackContext, args.getString(0));
-                return true;
-            } else if (action.equals("listChannels")) {
-                this.listChannels(callbackContext);
-                return true;
-            } else if (action.equals("setDefaultChannel")) {
-                this.setDefaultChannel(callbackContext, args.getJSONObject(0));
-                return true;
+            // } else if (action.equals("createChannel")) {
+            //     this.createChannel(callbackContext, args.getJSONObject(0));
+            //     return true;
+            // } else if (action.equals("deleteChannel")) {
+            //     this.deleteChannel(callbackContext, args.getString(0));
+            //     return true;
+            // } else if (action.equals("listChannels")) {
+            //     this.listChannels(callbackContext);
+            //     return true;
+            // } else if (action.equals("setDefaultChannel")) {
+            //     this.setDefaultChannel(callbackContext, args.getJSONObject(0));
+            //     return true;
             } else if (action.equals("grantPermission")
                     || action.equals("setBadgeNumber")
                     || action.equals("getBadgeNumber")
@@ -397,45 +397,45 @@ public class FirebasePlugin extends CordovaPlugin {
         });
     }
 
-    private void hasPermission(final CallbackContext callbackContext) {
-        cordova.getThreadPool().execute(new Runnable() {
-            public void run() {
-                try {
-                    NotificationManagerCompat notificationManagerCompat = NotificationManagerCompat.from(cordovaActivity);
-                    boolean areNotificationsEnabled = notificationManagerCompat.areNotificationsEnabled();
-                    callbackContext.success(areNotificationsEnabled ? 1 : 0);
-                } catch (Exception e) {
-                    handleExceptionWithContext(e, callbackContext);
-                }
-            }
-        });
-    }
+    // private void hasPermission(final CallbackContext callbackContext) {
+    //     cordova.getThreadPool().execute(new Runnable() {
+    //         public void run() {
+    //             try {
+    //                 NotificationManagerCompat notificationManagerCompat = NotificationManagerCompat.from(cordovaActivity);
+    //                 boolean areNotificationsEnabled = notificationManagerCompat.areNotificationsEnabled();
+    //                 callbackContext.success(areNotificationsEnabled ? 1 : 0);
+    //             } catch (Exception e) {
+    //                 handleExceptionWithContext(e, callbackContext);
+    //             }
+    //         }
+    //     });
+    // }
 
-    private void subscribe(final CallbackContext callbackContext, final String topic) {
-        cordova.getThreadPool().execute(new Runnable() {
-            public void run() {
-                try {
-                    FirebaseMessaging.getInstance().subscribeToTopic(topic);
-                    callbackContext.success();
-                } catch (Exception e) {
-                    handleExceptionWithContext(e, callbackContext);
-                }
-            }
-        });
-    }
+    // private void subscribe(final CallbackContext callbackContext, final String topic) {
+    //     cordova.getThreadPool().execute(new Runnable() {
+    //         public void run() {
+    //             try {
+    //                 FirebaseMessaging.getInstance().subscribeToTopic(topic);
+    //                 callbackContext.success();
+    //             } catch (Exception e) {
+    //                 handleExceptionWithContext(e, callbackContext);
+    //             }
+    //         }
+    //     });
+    // }
 
-    private void unsubscribe(final CallbackContext callbackContext, final String topic) {
-        cordova.getThreadPool().execute(new Runnable() {
-            public void run() {
-                try {
-                    FirebaseMessaging.getInstance().unsubscribeFromTopic(topic);
-                    callbackContext.success();
-                } catch (Exception e) {
-                    handleExceptionWithContext(e, callbackContext);
-                }
-            }
-        });
-    }
+    // private void unsubscribe(final CallbackContext callbackContext, final String topic) {
+    //     cordova.getThreadPool().execute(new Runnable() {
+    //         public void run() {
+    //             try {
+    //                 FirebaseMessaging.getInstance().unsubscribeFromTopic(topic);
+    //                 callbackContext.success();
+    //             } catch (Exception e) {
+    //                 handleExceptionWithContext(e, callbackContext);
+    //             }
+    //         }
+    //     });
+    // }
 
     private void unregister(final CallbackContext callbackContext) {
         cordova.getThreadPool().execute(new Runnable() {
@@ -979,222 +979,222 @@ public class FirebasePlugin extends CordovaPlugin {
         });
     }
 
-    public void clearAllNotifications(final CallbackContext callbackContext) {
-        cordova.getThreadPool().execute(new Runnable() {
-            public void run() {
-                try {
-                    NotificationManager nm = (NotificationManager) cordovaActivity.getSystemService(Context.NOTIFICATION_SERVICE);
-                    nm.cancelAll();
-                    callbackContext.success();
-                } catch (Exception e) {
-                    handleExceptionWithContext(e, callbackContext);
-                }
-            }
-        });
-    }
+    // public void clearAllNotifications(final CallbackContext callbackContext) {
+    //     cordova.getThreadPool().execute(new Runnable() {
+    //         public void run() {
+    //             try {
+    //                 NotificationManager nm = (NotificationManager) cordovaActivity.getSystemService(Context.NOTIFICATION_SERVICE);
+    //                 nm.cancelAll();
+    //                 callbackContext.success();
+    //             } catch (Exception e) {
+    //                 handleExceptionWithContext(e, callbackContext);
+    //             }
+    //         }
+    //     });
+    // }
 
-    public void createChannel(final CallbackContext callbackContext, final JSONObject options) {
-        cordova.getThreadPool().execute(new Runnable() {
-            public void run() {
-                try {
-                    createChannel(options);
-                    callbackContext.success();
-                } catch (Exception e) {
-                    handleExceptionWithContext(e, callbackContext);
-                }
-            }
-        });
-    }
+    // public void createChannel(final CallbackContext callbackContext, final JSONObject options) {
+    //     cordova.getThreadPool().execute(new Runnable() {
+    //         public void run() {
+    //             try {
+    //                 createChannel(options);
+    //                 callbackContext.success();
+    //             } catch (Exception e) {
+    //                 handleExceptionWithContext(e, callbackContext);
+    //             }
+    //         }
+    //     });
+    // }
 
-    protected static NotificationChannel createChannel(final JSONObject options) throws JSONException {
-        NotificationChannel channel = null;
-        // only call on Android O and above
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            String id = options.getString("id");
-            Log.i(TAG, "Creating channel id="+id);
+    // protected static NotificationChannel createChannel(final JSONObject options) throws JSONException {
+    //     NotificationChannel channel = null;
+    //     // only call on Android O and above
+    //     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+    //         String id = options.getString("id");
+    //         Log.i(TAG, "Creating channel id="+id);
 
-            if(channelExists(id)){
-                deleteChannel(id);
-            }
+    //         if(channelExists(id)){
+    //             deleteChannel(id);
+    //         }
 
-            NotificationManager nm = (NotificationManager) cordovaActivity.getSystemService(Context.NOTIFICATION_SERVICE);
-            String packageName = cordovaActivity.getPackageName();
+    //         NotificationManager nm = (NotificationManager) cordovaActivity.getSystemService(Context.NOTIFICATION_SERVICE);
+    //         String packageName = cordovaActivity.getPackageName();
 
-            String name = options.optString("name", "");
-            Log.d(TAG, "Channel "+id+" - name="+name);
+    //         String name = options.optString("name", "");
+    //         Log.d(TAG, "Channel "+id+" - name="+name);
 
-            int importance = options.optInt("importance", NotificationManager.IMPORTANCE_HIGH);
-            Log.d(TAG, "Channel "+id+" - importance="+importance);
+    //         int importance = options.optInt("importance", NotificationManager.IMPORTANCE_HIGH);
+    //         Log.d(TAG, "Channel "+id+" - importance="+importance);
 
-            channel = new NotificationChannel(id,
-                    name,
-                    importance);
+    //         channel = new NotificationChannel(id,
+    //                 name,
+    //                 importance);
 
-            // Light
-            boolean light = options.optBoolean("light", true);
-            Log.d(TAG, "Channel "+id+" - light="+light);
-            channel.enableLights(light);
+    //         // Light
+    //         boolean light = options.optBoolean("light", true);
+    //         Log.d(TAG, "Channel "+id+" - light="+light);
+    //         channel.enableLights(light);
 
-            int lightColor = options.optInt("lightColor", -1);
-            if (lightColor != -1) {
-                Log.d(TAG, "Channel "+id+" - lightColor="+lightColor);
-                channel.setLightColor(lightColor);
-            }
+    //         int lightColor = options.optInt("lightColor", -1);
+    //         if (lightColor != -1) {
+    //             Log.d(TAG, "Channel "+id+" - lightColor="+lightColor);
+    //             channel.setLightColor(lightColor);
+    //         }
 
-            // Visibility
-            int visibility = options.optInt("visibility", NotificationCompat.VISIBILITY_PUBLIC);
-            Log.d(TAG, "Channel "+id+" - visibility="+visibility);
-            channel.setLockscreenVisibility(visibility);
+    //         // Visibility
+    //         int visibility = options.optInt("visibility", NotificationCompat.VISIBILITY_PUBLIC);
+    //         Log.d(TAG, "Channel "+id+" - visibility="+visibility);
+    //         channel.setLockscreenVisibility(visibility);
 
-            // Badge
-            boolean badge = options.optBoolean("badge", true);
-            Log.d(TAG, "Channel "+id+" - badge="+badge);
-            channel.setShowBadge(badge);
+    //         // Badge
+    //         boolean badge = options.optBoolean("badge", true);
+    //         Log.d(TAG, "Channel "+id+" - badge="+badge);
+    //         channel.setShowBadge(badge);
 
-            // Sound
-            String sound = options.optString("sound", "default");
-            AudioAttributes audioAttributes = new AudioAttributes.Builder()
-                    .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
-                    .setUsage(AudioAttributes.USAGE_NOTIFICATION_RINGTONE).build();
-            if ("ringtone".equals(sound)) {
-                channel.setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_RINGTONE), audioAttributes);
-                Log.d(TAG, "Channel "+id+" - sound=ringtone");
-            } else if (sound != null && !sound.contentEquals("default")) {
-                Uri soundUri = Uri.parse(ContentResolver.SCHEME_ANDROID_RESOURCE + "://" + packageName + "/raw/" + sound);
-                channel.setSound(soundUri, audioAttributes);
-                Log.d(TAG, "Channel "+id+" - sound="+sound);
-            } else if (sound != "false"){
-                channel.setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION), audioAttributes);
-                Log.d(TAG, "Channel "+id+" - sound=default");
-            }else{
-                Log.d(TAG, "Channel "+id+" - sound=none");
-            }
+    //         // Sound
+    //         String sound = options.optString("sound", "default");
+    //         AudioAttributes audioAttributes = new AudioAttributes.Builder()
+    //                 .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
+    //                 .setUsage(AudioAttributes.USAGE_NOTIFICATION_RINGTONE).build();
+    //         if ("ringtone".equals(sound)) {
+    //             channel.setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_RINGTONE), audioAttributes);
+    //             Log.d(TAG, "Channel "+id+" - sound=ringtone");
+    //         } else if (sound != null && !sound.contentEquals("default")) {
+    //             Uri soundUri = Uri.parse(ContentResolver.SCHEME_ANDROID_RESOURCE + "://" + packageName + "/raw/" + sound);
+    //             channel.setSound(soundUri, audioAttributes);
+    //             Log.d(TAG, "Channel "+id+" - sound="+sound);
+    //         } else if (sound != "false"){
+    //             channel.setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION), audioAttributes);
+    //             Log.d(TAG, "Channel "+id+" - sound=default");
+    //         }else{
+    //             Log.d(TAG, "Channel "+id+" - sound=none");
+    //         }
 
-            // Vibration: if vibration setting is an array set vibration pattern, else set enable vibration.
-            JSONArray pattern = options.optJSONArray("vibration");
-            if (pattern != null) {
-                int patternLength = pattern.length();
-                long[] patternArray = new long[patternLength];
-                for (int i = 0; i < patternLength; i++) {
-                    patternArray[i] = pattern.optLong(i);
-                }
-                channel.enableVibration(true);
-                channel.setVibrationPattern(patternArray);
-                Log.d(TAG, "Channel "+id+" - vibrate="+pattern);
-            } else {
-                boolean vibrate = options.optBoolean("vibration", true);
-                channel.enableVibration(vibrate);
-                Log.d(TAG, "Channel "+id+" - vibrate="+vibrate);
-            }
+    //         // Vibration: if vibration setting is an array set vibration pattern, else set enable vibration.
+    //         JSONArray pattern = options.optJSONArray("vibration");
+    //         if (pattern != null) {
+    //             int patternLength = pattern.length();
+    //             long[] patternArray = new long[patternLength];
+    //             for (int i = 0; i < patternLength; i++) {
+    //                 patternArray[i] = pattern.optLong(i);
+    //             }
+    //             channel.enableVibration(true);
+    //             channel.setVibrationPattern(patternArray);
+    //             Log.d(TAG, "Channel "+id+" - vibrate="+pattern);
+    //         } else {
+    //             boolean vibrate = options.optBoolean("vibration", true);
+    //             channel.enableVibration(vibrate);
+    //             Log.d(TAG, "Channel "+id+" - vibrate="+vibrate);
+    //         }
 
-            // Create channel
-            nm.createNotificationChannel(channel);
-        }
-        return channel;
-    }
+    //         // Create channel
+    //         nm.createNotificationChannel(channel);
+    //     }
+    //     return channel;
+    // }
 
-    protected static void createDefaultChannel() throws JSONException {
-        JSONObject options = new JSONObject();
-        options.put("id", defaultChannelId);
-        options.put("name", defaultChannelName);
-        createDefaultChannel(options);
-    }
+    // protected static void createDefaultChannel() throws JSONException {
+    //     JSONObject options = new JSONObject();
+    //     options.put("id", defaultChannelId);
+    //     options.put("name", defaultChannelName);
+    //     createDefaultChannel(options);
+    // }
 
-    protected static void createDefaultChannel(final JSONObject options) throws JSONException {
-        defaultNotificationChannel = createChannel(options);
-    }
+    // protected static void createDefaultChannel(final JSONObject options) throws JSONException {
+    //     defaultNotificationChannel = createChannel(options);
+    // }
 
-    public void setDefaultChannel(final CallbackContext callbackContext, final JSONObject options) {
-        cordova.getThreadPool().execute(new Runnable() {
-            public void run() {
-                try {
-                    deleteChannel(defaultChannelId);
+    // public void setDefaultChannel(final CallbackContext callbackContext, final JSONObject options) {
+    //     cordova.getThreadPool().execute(new Runnable() {
+    //         public void run() {
+    //             try {
+    //                 deleteChannel(defaultChannelId);
 
-                    String id = options.optString("id", null);
-                    if(id != null){
-                        defaultChannelId = id;
-                    }
+    //                 String id = options.optString("id", null);
+    //                 if(id != null){
+    //                     defaultChannelId = id;
+    //                 }
 
-                    String name = options.optString("name", null);
-                    if(name != null){
-                        defaultChannelName = name;
-                    }
-                    createDefaultChannel(options);
-                    callbackContext.success();
-                } catch (Exception e) {
-                    handleExceptionWithContext(e, callbackContext);
-                }
-            }
-        });
-    }
+    //                 String name = options.optString("name", null);
+    //                 if(name != null){
+    //                     defaultChannelName = name;
+    //                 }
+    //                 createDefaultChannel(options);
+    //                 callbackContext.success();
+    //             } catch (Exception e) {
+    //                 handleExceptionWithContext(e, callbackContext);
+    //             }
+    //         }
+    //     });
+    // }
 
-    public void deleteChannel(final CallbackContext callbackContext, final String channelID) {
-        cordova.getThreadPool().execute(new Runnable() {
-            public void run() {
-                try {
-                    deleteChannel(channelID);
-                    callbackContext.success();
-                } catch (Exception e) {
-                    handleExceptionWithContext(e, callbackContext);
-                }
-            }
-        });
-    }
+    // public void deleteChannel(final CallbackContext callbackContext, final String channelID) {
+    //     cordova.getThreadPool().execute(new Runnable() {
+    //         public void run() {
+    //             try {
+    //                 deleteChannel(channelID);
+    //                 callbackContext.success();
+    //             } catch (Exception e) {
+    //                 handleExceptionWithContext(e, callbackContext);
+    //             }
+    //         }
+    //     });
+    // }
 
-    protected static void deleteChannel(final String channelID){
-        // only call on Android O and above
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            NotificationManager nm = (NotificationManager) cordovaActivity.getSystemService(Context.NOTIFICATION_SERVICE);
-            nm.deleteNotificationChannel(channelID);
-        }
-    }
+    // protected static void deleteChannel(final String channelID){
+    //     // only call on Android O and above
+    //     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+    //         NotificationManager nm = (NotificationManager) cordovaActivity.getSystemService(Context.NOTIFICATION_SERVICE);
+    //         nm.deleteNotificationChannel(channelID);
+    //     }
+    // }
 
-    public void listChannels(final CallbackContext callbackContext) {
-        cordova.getThreadPool().execute(new Runnable() {
-            public void run() {
-                try {
-                    List<NotificationChannel> notificationChannels = listChannels();
-                    JSONArray channels = new JSONArray();
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                        for (NotificationChannel notificationChannel : notificationChannels) {
-                            JSONObject channel = new JSONObject();
-                            channel.put("id", notificationChannel.getId());
-                            channel.put("name", notificationChannel.getName());
-                            channels.put(channel);
-                        }
-                    }
-                    callbackContext.success(channels);
-                } catch (Exception e) {
-                    handleExceptionWithContext(e, callbackContext);
-                }
-            }
-        });
-    }
+    // public void listChannels(final CallbackContext callbackContext) {
+    //     cordova.getThreadPool().execute(new Runnable() {
+    //         public void run() {
+    //             try {
+    //                 List<NotificationChannel> notificationChannels = listChannels();
+    //                 JSONArray channels = new JSONArray();
+    //                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+    //                     for (NotificationChannel notificationChannel : notificationChannels) {
+    //                         JSONObject channel = new JSONObject();
+    //                         channel.put("id", notificationChannel.getId());
+    //                         channel.put("name", notificationChannel.getName());
+    //                         channels.put(channel);
+    //                     }
+    //                 }
+    //                 callbackContext.success(channels);
+    //             } catch (Exception e) {
+    //                 handleExceptionWithContext(e, callbackContext);
+    //             }
+    //         }
+    //     });
+    // }
 
-    public static List<NotificationChannel> listChannels(){
-        List<NotificationChannel> notificationChannels = null;
-        // only call on Android O and above
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            NotificationManager nm = (NotificationManager) cordovaActivity.getSystemService(Context.NOTIFICATION_SERVICE);
-            notificationChannels = nm.getNotificationChannels();
-        }
-        return notificationChannels;
-    }
+    // public static List<NotificationChannel> listChannels(){
+    //     List<NotificationChannel> notificationChannels = null;
+    //     // only call on Android O and above
+    //     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+    //         NotificationManager nm = (NotificationManager) cordovaActivity.getSystemService(Context.NOTIFICATION_SERVICE);
+    //         notificationChannels = nm.getNotificationChannels();
+    //     }
+    //     return notificationChannels;
+    // }
 
-    public static boolean channelExists(String channelId){
-        boolean exists = false;
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
-            List<NotificationChannel> notificationChannels = FirebasePlugin.listChannels();
-            if(notificationChannels != null){
-                for (NotificationChannel notificationChannel : notificationChannels) {
-                    if(notificationChannel.getId() == channelId){
-                        exists = true;
-                    }
-                }
-            }
-        }
-        return exists;
-    }
+    // public static boolean channelExists(String channelId){
+    //     boolean exists = false;
+    //     if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
+    //         List<NotificationChannel> notificationChannels = FirebasePlugin.listChannels();
+    //         if(notificationChannels != null){
+    //             for (NotificationChannel notificationChannel : notificationChannels) {
+    //                 if(notificationChannel.getId() == channelId){
+    //                     exists = true;
+    //                 }
+    //             }
+    //         }
+    //     }
+    //     return exists;
+    // }
 
     protected static void handleExceptionWithContext(Exception e, CallbackContext context){
         String msg = e.toString();
